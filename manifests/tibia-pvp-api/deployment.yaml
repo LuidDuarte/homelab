@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tibia-pvp-api
+  namespace: tibia-pvp-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tibia-pvp-api
+  template:
+    metadata:
+      labels:
+        app: tibia-pvp-api
+    spec:
+      containers:
+      - name: tibia-pvp-api
+        image: localhost:30721/tibia-pvp-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000  # Porta padrão do Gunicorn
+        env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: tibia-secret-key
+                key: SECRET_KEY
+
